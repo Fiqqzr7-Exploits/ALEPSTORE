@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ALEPZZ • PROFILE</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts - Modern & Clean -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* LOADING SCREEN ANIMATION */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(145deg, #e6f3f5 0%, #d4e8ec 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        .loading-content {
+            text-align: center;
+        }
+
+        .loading-spinner {
+            width: 80px;
+            height: 80px;
+            border: 5px solid rgba(64, 224, 208, 0.2);
+            border-top: 5px solid #40e0d0;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 30px;
+            box-shadow: 0 0 30px rgba(64, 224, 208, 0.3);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #1e4a4a;
+            letter-spacing: 5px;
+            animation: pulse 1.5s ease infinite;
+        }
+
+        .loading-dots {
+            display: inline-block;
+            animation: dots 1.5s ease infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        body {
+            background: linear-gradient(145deg, #e6f3f5 0%, #d4e8ec 100%);
+            font-family: 'Poppins', 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ANIMATION BACKGROUND - FLUID & SOFT */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bubble {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(64, 224, 208, 0.15), rgba(72, 209, 204, 0.1));
+            border-radius: 50%;
+            animation: float 15s infinite ease-in-out;
+            backdrop-filter: blur(5px);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-40px) translateX(20px); }
+            50% { transform: translateY(20px) translateX(-30px); }
+            75% { transform: translateY(-20px) translateX(40px); }
+        }
+
+        .bubble1 { width: 300px; height: 300px; top: -100px; left: -100px; animation-delay: 0s; }
+        .bubble2 { width: 400px; height: 400px; bottom: -150px; right: -100px; animation-delay: 2s; background: linear-gradient(135deg, rgba(0, 206, 209, 0.1), rgba(32, 178, 170, 0.08)); }
+        .bubble3 { width: 200px; height: 200px; bottom: 50px; left: 50px; animation-delay: 4s; }
+        .bubble4 { width: 350px; height: 350px; top: 100px; right: 50px; animation-delay: 6s; background: linear-gradient(135deg, rgba(95, 158, 160, 0.12), rgba(72, 209, 204, 0.08)); }
+
+        /* MAIN CARD - GLASSMORPHISM */
+        .profile-card {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 50px;
+            padding: 50px 40px;
+            box-shadow: 0 30px 60px rgba(0, 150, 150, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            z-index: 10;
+            animation: fadeIn 1.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* PROFILE HEADER - NO AVATAR */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .title-section {
+            flex: 1;
+            text-align: center;
+        }
+
+        /* ANIMASI NAMA BERGERAK CANTIK - 3 EFEK SEKALIGUS */
+        .name {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #1e4a4a;
+            margin-bottom: 5px;
+            letter-spacing: 6px;
+            line-height: 1.2;
+            text-shadow: 0 0 10px rgba(64, 224, 208, 0.3);
+            
+            /* ANIMASI 1 - GLOW PULSING */
+            animation: glowPulse 2.5s ease-in-out infinite;
+            
+            /* ANIMASI 2 - SLIDE BERGELOMBANG */
+            background: linear-gradient(45deg, #1e4a4a, #40e0d0, #20b2aa, #1e4a4a);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 6s ease infinite, glowPulse 2.5s ease-in-out infinite;
+            
+            /* ANIMASI 3 - FLOAT RINGAN */
+            transform-origin: center;
+            animation: floatText 4s ease-in-out infinite, gradientShift 6s ease infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { text-shadow: 0 0 15px rgba(64, 224, 208, 0.4), 0 0 30px rgba(64, 224, 208, 0.2); }
+            50% { text-shadow: 0 0 30px rgba(64, 224, 208, 0.8), 0 0 50px rgba(64, 224, 208, 0.4); }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes floatText {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(145deg, #40e0d0, #20b2aa);
+            color: white;
+            padding: 8px 28px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+            margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(64, 224, 208, 0.4);
+            animation: badgeGlow 3s infinite;
+        }
+
+        @keyframes badgeGlow {
+            0%, 100% { box-shadow: 0 5px 15px rgba(64, 224, 208, 0.4); }
+            50% { box-shadow: 0 8px 25px rgba(0, 206, 209, 0.7); }
+        }
+
+        .bio {
+            margin: 30px 0;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: #2c5a5a;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 25px 30px;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            font-weight: 400;
+        }
+
+        /* NOTE / ANNOUNCEMENT BOX - TULISAN APA YANG DIJUAL */
+        .announcement-box {
+            background: linear-gradient(145deg, rgba(64, 224, 208, 0.1), rgba(32, 178, 170, 0.1));
+            border-left: 8px solid #40e0d0;
+            border-radius: 20px;
+            padding: 25px 30px;
+            margin: 30px 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(64, 224, 208, 0.4);
+            box-shadow: 0 10px 30px rgba(64, 224, 208, 0.15);
+            animation: slideIn 0.8s ease, boxGlow 3s infinite;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes boxGlow {
+            0%, 100% { border-left-color: #40e0d0; box-shadow: 0 10px 30px rgba(64, 224, 208, 0.15); }
+            50% { border-left-color: #20b2aa; box-shadow: 0 15px 40px rgba(32, 178, 170, 0.3); }
+        }
+
+        .announcement-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1e4a4a;
+        }
+
+        .announcement-title i {
+            color: #40e0d0;
+            font-size: 1.6rem;
+            animation: bellRing 2s infinite;
+        }
+
+        @keyframes bellRing {
+            0%, 100% { transform: rotate(0deg); }
+            20%, 60% { transform: rotate(15deg); }
+            40%, 80% { transform: rotate(-15deg); }
+        }
+
+        .announcement-content {
+            color: #2c5a5a;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .product-item {
+            background: white;
+            padding: 12px 18px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+            color: #1e4a4a;
+            border: 1px solid rgba(64, 224, 208, 0.3);
+            transition: 0.3s;
+        }
+
+        .product-item:hover {
+            transform: scale(1.02);
+            border-color: #40e0d0;
+            box-shadow: 0 5px 20px rgba(64, 224, 208, 0.2);
+        }
+
+        .product-item i {
+            color: #40e0d0;
+            font-size: 1.2rem;
+        }
+
+        /* MUSIC PLAYER BUTTON */
+        .music-player {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0 30px;
+        }
+
+        .music-btn {
+            background: white;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e4a4a;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 25px rgba(64, 224, 208, 0.25);
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid rgba(64, 224, 208, 0.3);
+        }
+
+        .music-btn i {
+            color: #40e0d0;
+            font-size: 1.3rem;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(64, 224, 208, 0.4);
+        }
+
+        /* SOCIAL LINKS - 3 LOGO BESAR */
+        .social-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e4a4a;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .social-title i {
+            color: #40e0d0;
+            font-size: 1.6rem;
+        }
+
+        .social-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        /* SOCIAL CARD - DENGAN RUANG GAMBAR */
+        .social-card {
+            background: white;
+            border-radius: 30px;
+            padding: 25px 25px 20px;
+            width: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            transition: 0.4s;
+            border: 1px solid rgba(64, 224, 208, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 150, 150, 0.1);
+        }
+
+        .social-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 45px rgba(64, 224, 208, 0.35);
+            border-color: #40e0d0;
+        }
+
+        /* ICON SOCIAL */
+        .social-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+
+        .social-card:hover .social-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        /* DISCORD */
+        .discord .social-icon {
+            background: linear-gradient(145deg, #5865F2, #4752c4);
+            color: white;
+            box-shadow: 0 10px 20px rgba(88, 101, 242, 0.3);
+        }
+
+        /* TIKTOK */
+        .tiktok .social-icon {
+            background: linear-gradient(145deg, #000000, #1a1a1a);
+            color: white;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* WHATSAPP */
+        .whatsapp .social-icon {
+            background: linear-gradient(145deg, #25D366, #128C7E);
+            color: white;
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+        }
+
+        /* TEMPAT GAMBAR DI BAWAH LOGO */
+        .social-image {
+            width: 100%;
+            height: 60px;
+            border-radius: 15px;
+            margin-top: 15px;
+            object-fit: cover;
+            border: 2px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .social-card:hover .social-image {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(64, 224, 208, 0.4);
+        }
+
+        .social-name {
+            font-weight: 600;
+            color: #2c5a5a;
+            margin-top: 12px;
+            font-size: 1.1rem;
+        }
+
+        .social-handle {
+            font-size: 0.85rem;
+            color: #6b9080;
+            margin-top: 5px;
+            font-weight: 400;
+        }
+
+        /* QUOTE SECTION */
+        .quote-section {
+            margin-top: 45px;
+            text-align: center;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 30px;
+            border: 1px solid rgba(64, 224, 208, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .quote {
+            font-size: 1.2rem;
+            color: #1e4a4a;
+            font-style: italic;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .quote i {
+            color: #40e0d0;
+            margin: 0 10px;
+            font-size: 1.1rem;
+        }
+
+        .footer {
+            margin-top: 35px;
+            text-align: center;
+            color: #6b9080;
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .profile-card { padding: 35px 25px; }
+            .name { font-size: 2.5rem; }
+            .social-grid { gap: 25px; }
+            .social-card { width: 160px; }
+            .product-list { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- LOADING SCREEN ANIMATION -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">
+                ALEPZZ•SELL<span class="loading-dots">...</span>
+            </div>
+            <div style="color: #40e0d0; margin-top: 20px; font-size: 1rem; letter-spacing: 3px;">
+                SELL MODEL AN MAP
+            </div>
+        </div>
+    </div>
+
+    <!-- BACKGROUND MUSIC - AUTO PLAY -->
+    <audio id="bgMusic" loop>
+        <!-- 
+            🎵 CARA TUKAR LAGU:
+            1. Upload lagu ke server atau
+            2. Guna link lagu MP3 dari internet
+            
+            CONTOH LINK: https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3
+        -->
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- ANIMATION BACKGROUND - BUBBLES -->
+    <div class="bg-animation">
+        <div class="bubble bubble1"></div>
+        <div class="bubble bubble2"></div>
+        <div class="bubble bubble3"></div>
+        <div class="bubble bubble4"></div>
+    </div>
+
+    <!-- MAIN PROFILE CARD -->
+    <div class="profile-card">
+        <!-- PROFILE HEADER - NO AVATAR -->
+        <div class="profile-header">
+            <div class="title-section">
+                <h1 class="name">ALEPPZZ</h1>
+                <div class="badge">
+                    <i class="fas fa-crown"></i> PREMIUM SELLER
+                </div>
+            </div>
+        </div>
+
+        <!-- BIO / DESCRIPTION -->
+        <div class="bio">
+            <i class="fas fa-quote-left" style="color: #40e0d0; opacity: 0.7; margin-right: 8px;"></i> 
+            Roblox•exploit•from•malaysia
+            <i class="fas fa-quote-right" style="color: #40e0d0; opacity: 0.7; margin-left: 8px;"></i>
+            <br>
+            <span style="color: #20b2aa; font-weight: 500;">20+ Roblox Scripts | 300+ Users | 24/7 Support</span>
+        </div>
+
+        <!-- NOTE / ANNOUNCEMENT BOX - TULISAN PRODUK YANG DIJUAL -->
+        <div class="announcement-box">
+            <div class="announcement-title">
+                <i class="fas fa-bell"></i>
+                <span>📢 FIQQZR7 FAMILY STORE</span>
+                <i class="fas fa-bell"></i>
+            </div>
+            <div class="announcement-content">
+                <p style="margin-bottom: 15px; font-weight: 600; color: #1e4a4a;">
+                    🔥 ROBLOX MODEL SELL & MAP 🔥
+                </p>
+                <div class="product-list">
+                    <div class="product-item">
+                        <i class="fas fa-cube"></i>
+                        <span>PART MAP RM5</span>
+                    </div>
+                    <div class="product-item">
+                        <i class="fas fa-car"></i>
+                        <span>MAP FULL SET COPYMAP RM10</span>
+                    </div>
+                    <div class="product-item">
+                        <i class="fas fa-robot"></i>
+                        <span>Model MOTO FULL SET RM5-RM20</span>
+                    </div>
+                </div>
+                <p style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed rgba(64, 224, 208, 0.5); color: #20b2aa; font-weight: 600;">
+                    ⚡ FREE GIFT+BONUS SCRIPT!⚡
+                </p>
+            </div>
+        </div>
+
+        <!-- MUSIC PLAYER BUTTON -->
+        <div class="music-player">
+            <button id="musicToggle" class="music-btn">
+                <i id="musicIcon" class="fas fa-play"></i>
+                <span id="musicText">Play Music</span>
+            </button>
+        </div>
+
+        <!-- SOCIAL LINKS TITLE -->
+        <div class="social-title">
+            <i class="fas fa-share-alt"></i> 
+            <span>CONNECT WITH ME</span>
+        </div>
+
+        <!-- SOCIAL GRID - 3 LOGO DISCORD, TIKTOK, WHATSAPP -->
+        <div class="social-grid">
+            
+            <!-- DISCORD CARD -->
+            <a href="https://discord.gg/9qdvjrmDx" target="_blank" class="social-card discord">
+                <div class="social-icon">
+                    <i class="fab fa-discord"></i>
+                </div>
+                <span class="social-name">Discord Server</span>
+                <span class="social-handle">@fiqqzrfamily</span>
+                
+                <img src="https://via.placeholder.com/160x60/5865F2/ffffff?text=JOIN+DISCORD" 
+                     alt="Discord Server" 
+                     class="social-image">
+            </a>
+            
+            <!-- TIKTOK CARD -->
+            <a href="https://tiktok.com/@alepp104" target="_blank" class="social-card tiktok">
+                <div class="social-icon">
+                    <i class="fab fa-tiktok"></i>
+                </div>
+                <span class="social-name">TikTok</span>
+                <span class="social-handle">@alepppp</span>
+                
+                <img src="https://via.placeholder.com/160x60/000000/ffffff?text=@fiqqzr7.staff" 
+                     alt="TikTok Owner" 
+                     class="social-image">
+            </a>
+            
+            <!-- WHATSAPP CARD -->
+            <a href="https://wa.me/60163665562?text=SAYA%20NAK%20BELI%20MODEL%20MAP" 
+               target="_blank" 
+               class="social-card whatsapp">
+                <div class="social-icon">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <span class="social-name">WhatsApp</span>
+                <span class="social-handle">+6016-366-5562</span>
+                
+                <img src="https://via.placeholder.com/160x60/25D366/ffffff?text=CHAT+ADMIN" 
+                     alt="WhatsApp Chat owner" 
+                     class="social-image">
+            </a>
+        </div>
+
+        <!-- QUOTE / TAGLINE -->
+        <div class="quote-section">
+            <div class="quote">
+                <i class="fas fa-asterisk"></i> 
+                "HATI HATI DIMEJA MU BELUM TENTU DI PIHAK MU"
+                <i class="fas fa-asterisk"></i>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <i class="fas fa-water"></i> FIQQZR7•DESIGN<i class="fas fa-water"></i>
+        </div>
+    </div>
+
+    <script>
+        // LOADING SCREEN
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loadingScreen').classList.add('fade-out');
+            }, 2000); // 2 saat loading
+        });
+
+        // BACKGROUND MUSIC CONTROLS
+        const bgMusic = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
+        const musicIcon = document.getElementById('musicIcon');
+        const musicText = document.getElementById('musicText');
+
+        // Auto play (cuba play automatik)
+        bgMusic.volume = 0.5; // 50% volume
+        
+        // Cuba play automatik (mungkin kena policy browser)
+        let playPromise = bgMusic.play();
+        
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                // Auto play berjaya
+                musicIcon.className = 'fas fa-pause';
+                musicText.textContent = 'Pause Music';
+            }).catch(() => {
+                // Auto play gagal (user kena klik)
+                musicIcon.className = 'fas fa-play';
+                musicText.textContent = 'Play Music';
+            });
+        }
+
+        // Toggle play/pause bila klik button
+        musicToggle.addEventListener('click', function() {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                musicIcon.className = 'fas fa-pause';
+                musicText.textContent = 'Pause Music';
+            } else {
+                bgMusic.pause();
+                musicIcon.className = 'fas fa-play';
+                musicText.textContent = 'Play Music';
+            }
+        });
+
+        // CONSOLE WELCOME
+        console.log("%cFIQQZR7 SELL MODEL AN MAP", "color: #40e0d0; font-size: 16px; font-weight: bold;");
+        console.log("%cStyle biru kehijauan • Animasi Nama • Announcement Box • 8 Produk", "color: #20b2aa;");
+    </script>
+</body>
+</html>
